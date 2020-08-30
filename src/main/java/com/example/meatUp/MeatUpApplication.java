@@ -8,6 +8,5 @@ public class MeatUpApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MeatUpApplication.class, args);
-		System.out.println("HELLO!!");
 	}
 }

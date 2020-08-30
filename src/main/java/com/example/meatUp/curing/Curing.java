@@ -2,6 +2,7 @@ package com.example.meatUp.curing;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Document
 @Getter
 @Setter
+@ToString
 public class Curing {
 
     @Id
@@ -24,22 +26,15 @@ public class Curing {
     private int cuttingsInGrams;
     private int weightOfSteaks;
     private double waterlossPersentage;
-    private ArrayList<String> otherInfo = new ArrayList<>();
+//    private ArrayList<String> otherInfo = new ArrayList<>();
 
-
+    public Curing(){
+        this.startDate = LocalDate.now();
+    }
 
     public Curing(MeatCut meatCut, int startWeightInGrams) {
         this.meatCut = meatCut;
         this.startDate = LocalDate.now();
         this.startWeightInGrams = startWeightInGrams;
-    }
-
-    @Override
-    public String toString() {
-        return "Curing{" +
-                "id='" + id + '\'' +
-                ", meatCut=" + meatCut +
-                ", startDate=" + startDate +
-                '}';
     }
 }
