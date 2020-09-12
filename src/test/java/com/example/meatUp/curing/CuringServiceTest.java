@@ -36,7 +36,7 @@ class CuringServiceTest {
     @Test
     void findById() {
         Optional<Curing> c = curingService.findById("2");
-        System.out.println("HEI HIE: " + c);
+        System.out.println("HEI HEI: " + c);
     }
 
     @Test

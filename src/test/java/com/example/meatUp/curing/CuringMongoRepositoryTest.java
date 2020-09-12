@@ -45,7 +45,4 @@ class CuringMongoRepositoryTest {
         assertEquals(allTheBacon.size(), 1);
 
     }
-
-
-
 }

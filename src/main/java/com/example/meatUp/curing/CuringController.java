@@ -1,8 +1,8 @@
 package com.example.meatUp.curing;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +13,8 @@ import java.util.Optional;
 public class CuringController {
 
     private final CuringService curingService;
-    ObjectMapper objectMapper = new ObjectMapper();
+
+    //TODO: lage gode tilbakemeldinger til bruker ved 400 error
 
     @Autowired
     public CuringController(CuringService curingService) {
@@ -21,52 +22,70 @@ public class CuringController {
     }
 
     @GetMapping(path="{curingId}")
-    public Optional<Curing> getCuringById(@PathVariable("curingId") String id){
-        return curingService.findById(id);
+    public ResponseEntity<Optional<Curing>> getCuringById(@PathVariable("curingId") String id){
+        try{
+            Optional<Curing> curing =  curingService.findById(id);
+            System.out.println("Successfully handled getCuringById for curingId: " + id);
+            return ResponseEntity.ok(curing);
+        }
+        catch (Exception e){
+            System.out.println("Failed to handle get getCuringById for curingId: "+ id +", " + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @DeleteMapping("{curingId}")
-    public void deleteCuring( @PathVariable("curingId") String curingId){
-        curingService.deleteCuring(curingId);
+    public ResponseEntity<String> deleteCuring(@PathVariable("curingId") String curingId){
+        try {
+            curingService.deleteCuring(curingId);
+            System.out.println("Successfully handled delete deleteCuring for curingId: " + curingId);
+            return ResponseEntity.noContent().build();
+        }
+        catch (Exception e){
+            System.out.println("Failed to handle delete deleteCuring " + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping
-    public void addNewCuring(@RequestBody Curing curing){
-        curingService.save(curing);
+    public ResponseEntity<String> addNewCuring(@RequestBody Curing curing){
+        try {
+            curingService.save(curing);
+            System.out.println("Successfully handled post addNewCuring.");
+            return ResponseEntity.noContent().build();
+        }
+        catch (Exception e){
+            System.out.println("Failed to handle post addNewCuring " + e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
-    // Handling JSON with jackson mapping (convert json to java)
-    /*@PostMapping
-    public void addNewCuring(@RequestBody String curing) throws JsonProcessingException {
-        System.out.println(curing);
-        Curing c = objectMapper.readValue(curing, Curing.class);
-        System.out.println(c);
-        curingService.save(c);
-
-        if(c.getMeatCut().name() == null) {
-            return  "name must be added";
-        }
-    }*/
-
     @PutMapping (path = "{curingId}")
-    public void updateCuring(@PathVariable("curingId") String curingId,
-                             @RequestBody Curing curing){
-        curingService.updateCuring(curingId,curing);
-
+    public ResponseEntity<String> updateCuring(@PathVariable("curingId") String curingId,
+                                               @RequestBody Curing curing){
+        try {
+            curingService.updateCuring(curingId, curing);
+            System.out.println("Successfully handled put updateCuring.");
+            return ResponseEntity.noContent().build();
+        }
+        catch (Exception e){
+            System.out.println("Failed to handle put updateCuring " + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping
-    public List<Curing> findAll(){
-        return curingService.findAll();
+    public ResponseEntity<List<Curing>> findAll(){
+        try{
+        List<Curing> allCurings = curingService.findAll();
+            System.out.println("Successfully handled get allCurings.");
+            return ResponseEntity.ok(allCurings);
+
+    }catch (Exception e){
+            System.out.println("Failed to handle get allCurings " + e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
-
- /*   @PostMapping
-    public void addCuring(Curing curing){
-        curingService.addCuring(curing);
-    }
-
-  */
 
 
     @GetMapping("/dummy")
