@@ -1,5 +1,7 @@
 package com.example.meatUp.curing;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +32,7 @@ class CuringServiceTest {
     void setMockOutput() {
         Curing bacon = new Curing(MeatCut.BACON, 300);
         when(mockRepository.findById(any())).thenReturn(java.util.Optional.of(bacon));
+
     }
 
 
