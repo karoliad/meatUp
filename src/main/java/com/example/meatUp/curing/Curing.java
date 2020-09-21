@@ -37,4 +37,12 @@ public class Curing {
         this.startDate = LocalDate.now();
         this.startWeightInGrams = startWeightInGrams;
     }
+    public Curing(String id,MeatCut meatCut, int startWeightInGrams, LocalDate startDate) {
+        this.id = id;
+        this.meatCut = meatCut;
+        this.startWeightInGrams = startWeightInGrams;
+        this.startDate = startDate;
+    }
+
+
 }

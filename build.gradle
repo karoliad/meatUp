@@ -15,6 +15,19 @@ configurations {
 	}
 }
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs += "--enable-preview"
+}
+
+tasks.withType(Test) {
+	jvmArgs += "--enable-preview"
+}
+
+tasks.withType(JavaExec) {
+	jvmArgs += '--enable-preview'
+}
+
+
 repositories {
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
@@ -23,6 +36,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'junit:junit:4.12'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -30,7 +44,7 @@ dependencies {
 	testImplementation('org.junit.jupiter:junit-jupiter-api')
 	testCompile('org.junit.jupiter:junit-jupiter-params')
 	testRuntime('org.junit.jupiter:junit-jupiter-engine')
-	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.0'
 	testCompile group: 'org.mockito', name: 'mockito-core'
 	testCompile group: 'org.mockito', name: 'mockito-junit-jupiter'
 	compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
